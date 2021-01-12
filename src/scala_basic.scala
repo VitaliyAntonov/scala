@@ -17,12 +17,22 @@ object scala_basic extends App{
 
 //TODO Шаг 10. Использование наборов и отображений */
 object nabor {
-  /** Листинг 3.5. Создание, инициализация и использование неизменяемого набора */
+
+  //TODO  Листинг 3.2. Создание и инициализация массива
+  val numNames = Array("zero", "one", "two")
+
+
+//TODO  Листинг 3.5. Создание, инициализация и использование неизменяемого набора */
   var jetSet = Set("Boeing", "Airbus")
   jetSet += "Lear"
   println(jetSet.contains("Cessna"))
   println(jetSet.contains("Airbus"))
   println(jetSet.contains("Lear"))
+
+
+
+
+
 
 //TODO Листинг 3.6. Создание, инициализация и использование изменяемого набора */
   val movieSet = mutable.Set("Hitch", "Poltergeist")
