@@ -3,6 +3,7 @@
 //TODO Книга Scala Профессиональное программирование
 
 import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.ListBuffer
 import scala.collection.mutable
 import scala.collection.immutable.HashSet
 import scala.io.Source
@@ -11,7 +12,7 @@ object scala_basic extends App{
   println("Hello World")
 
   nabor // Использование наборов и отображений
-
+  FallWinterSpringSummer
 }
 
 
@@ -48,7 +49,7 @@ object nabor {
   movieSet += "Shrek"
   println(movieSet)
 
-//TODO Создание неизменяемого HashSet */
+// TODO Создание неизменяемого HashSet */
   val hashSet = HashSet("Tomatoes", "Chilies")
   println(hashSet + "Coriander")
 
@@ -78,7 +79,7 @@ object nabor {
   //TODO Листинг 3.10. Считывание строк из файла
   // import scala.io.Source
   val args = "/home/vitaly/develop/scalla/Text.txt"
-  var line:String = null
+  var line:String = ""
   if (args.length > 0) {
     for (line <- Source.fromFile(args).getLines())
       println(line.length + " " + line)
@@ -86,7 +87,9 @@ object nabor {
   else
     Console.err.println("Please enter filename")
 
-  println(fun.readFileLines(args))
+
+
+//  println(fun.readFileLines(args))
 
   lazy val busFile = fun.readFileLines(args)
   for(i <- 0 until busFile.length)
@@ -98,9 +101,11 @@ object nabor {
 
 object fun {
   def readFileLines(path: String): List[String] = { // чтение строк из файла в буфер
-    var mab = List[String]()
-    for (line <- Source.fromFile(path).getLines())  mab += line
-    mab
+    val mab = ListBuffer[String]()
+    for (line <- Source.fromFile(path).getLines()) {
+      mab += line
+    }
+    mab.toList
   }
 }
 
@@ -128,6 +133,16 @@ object ChecksumAccumulator {
       cs
     }
 }
+
+//TODO  Листинг 4.4. Использование трейта App
+
+object FallWinterSpringSummer {
+  println("FallWinterSpringSummer")
+  for (season <- List("fall", "winter", "spring")) {
+    println(season)
+  }
+}
+
 
 
 
