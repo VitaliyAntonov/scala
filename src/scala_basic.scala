@@ -8,11 +8,14 @@ import scala.collection.mutable
 import scala.collection.immutable.HashSet
 import scala.io.Source
 
+
+//TODO  Листинг 4.4. Использование трейта App для указания метода MAIN
 object scala_basic extends App{
   println("Hello World")
 
   nabor // Использование наборов и отображений
   FallWinterSpringSummer
+  FallWinterSpringSummer.use_updateRecordByName
 }
 
 
@@ -134,13 +137,81 @@ object ChecksumAccumulator {
     }
 }
 
-//TODO  Листинг 4.4. Использование трейта App
 
-object FallWinterSpringSummer {
+
+object FallWinterSpringSummer{
   println("FallWinterSpringSummer")
   for (season <- List("fall", "winter", "spring")) {
     println(season)
   }
+
+  // TODO 5.2 Строковые литералы
+  // Целочисленные литералы
+  val dec1 = 31 // dec1: Int = 31
+  val prog = 0xCAFEBABEL // prog: Long = 3405691582
+  val tower = 35L // tower: Long = 35
+  val of = 31l  // of: Long = 31
+  val little: Short = 367  // little: Short = 367
+  val littler: Byte = 38   // littler: Byte = 38
+  // Литералы чисел с плавающей точкой
+  val big = 1.2345  //  big: Double = 1.2345
+  val bigger = 1.2345e1 // bigger: Double = 12.345
+  val biggerStill = 123E45  // biggerStill: Double = 1.23E47
+  val littles = 1.2345F  //  littles: Float = 1.2345
+  val littleBigger = 3e5f // littleBigger: Float = 300000.0
+  val anotherDouble = 3e5 // anotherDouble: Double = 300000.0
+  val yetAnother = 3e5D // yetAnother: Double = 300000.0
+  // Символьные литералы
+  val a = 'A' // a: Char = A
+  val d = '\u0041' // d: Char = A
+  val f = '\u0044' // f: Char = D
+  println("B\u0041\u0044")// = 1 // BAD: Int = 1
+
+  //  Строковые литералы
+  val hello = "hello" // hello: String = hello
+  val escapes = "\\\"\'" // escapes: String = \"'
+
+  // TODO Три двойные кавычки и метод stripMargin для неформатированной строки - строка может содержать любые символы
+  println("""|Welcome to Ultamix 3000.
+             |Type "HELP" for help.""".stripMargin)
+
+  // TODO Литералы обозначений == класс Symbol (scala.Symbol)
+  def updateRecordByName(r: Symbol, value: Any) = {
+    println("yes in updateRecordByName")
+    if(r==Symbol("favoriteAlbum")){
+      println(value)
+      println(r.name) // для класса Symbol есть только метод .name
+    }
+  }
+  def use_updateRecordByName: Unit ={
+    updateRecordByName(Symbol("favoriteAlbum"), "OKComputer")
+    println(Symbol("favoriteAlbum").name)
+  }
+
+  // Булевы литералы
+  val bool = true // bool: Boolean = true
+  val fool = false  // fool: Boolean = false
+
+  // TODO 5.3. Строковая интерполяция
+  def stringInterpolator {
+    // интерполятор s
+    val name = "reader"
+    println(s"Hello, $name!") // в отношении всех результатов после знака $ вызывается метод toString
+    println(s"The answer is ${6 * 7}.") // выражение следует заключить в фигурные скобки
+
+    // интерполятор raw не распознает управляющие последовательности символьных литералов
+    println(raw"No\\\\escape!") // выводит:  No\\\\escape!
+
+    // интерполятор f позволяет прикреплять к встроенным выражениям
+    // инструкции форматирования в стиле функции printf
+    // используется синтаксис, заданный классом java.util.Formatter.
+    println(f"${math.Pi}%.5f")  // res1: String = 3.14159
+
+
+
+
+  }
+
 }
 
 
