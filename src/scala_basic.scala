@@ -2,6 +2,8 @@
 
 //TODO Книга Scala Профессиональное программирование
 
+import useRational.{x, y}
+
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.ListBuffer
 import scala.collection.mutable
@@ -16,6 +18,8 @@ object scala_basic extends App{
   nabor // Использование наборов и отображений
   FallWinterSpringSummer
   FallWinterSpringSummer.use_updateRecordByName
+  useRational // Использование созданного класса Rational
+  useFor
 }
 
 
@@ -81,7 +85,7 @@ object nabor {
 
   //TODO Листинг 3.10. Считывание строк из файла
   // import scala.io.Source
-  val args = "/home/vitaly/develop/scalla/Text.txt"
+  val args = "/home/oem/develop/scala/scala/Text.txt"
   var line:String = ""
   if (args.length > 0) {
     for (line <- Source.fromFile(args).getLines())
@@ -145,7 +149,7 @@ object FallWinterSpringSummer{
     println(season)
   }
 
-  // TODO 5.2 Строковые литералы
+  // TODO 5 Литералы
   // Целочисленные литералы
   val dec1 = 31 // dec1: Int = 31
   val prog = 0xCAFEBABEL // prog: Long = 3405691582
@@ -167,6 +171,7 @@ object FallWinterSpringSummer{
   val f = '\u0044' // f: Char = D
   println("B\u0041\u0044")// = 1 // BAD: Int = 1
 
+  // TODO 5.2 Строковые литералы
   //  Строковые литералы
   val hello = "hello" // hello: String = hello
   val escapes = "\\\"\'" // escapes: String = \"'
@@ -206,17 +211,87 @@ object FallWinterSpringSummer{
     // инструкции форматирования в стиле функции printf
     // используется синтаксис, заданный классом java.util.Formatter.
     println(f"${math.Pi}%.5f")  // res1: String = 3.14159
-
-
-
-
   }
+}
+
+// TODO 6 Функциональные объекты
+
+// TODO 6.2. Конструкция класса Rational  - работа с дробями
+
+//class Rational(val n: Int, val d: Int ){
+//  require(d != 0) // Метод require создаст исключение IllegalArgumentException при false
+//  override def toString: String = n + "/" + d
+//  def add(that: Rational): Rational = new Rational(n * that.d + that.n * d, d * that.d)
+//}
+
+class Rational(n: Int, d: Int) {
+  // проверка знаменателя на 0
+  require(d != 0) // Метод require создаст исключение IllegalArgumentException при false
+  private val  g = gcd(n.abs, d.abs)
+  val numer = n / g
+  val denom = d / g
+
+  def this(n: Int) = this(n, 1) // дополнительный конструктор
+
+  override def toString = numer + "/" + denom
+  def add(that: Rational): Rational =
+    new Rational(
+      numer * that.denom + that.numer * denom,
+      denom * that.denom
+    )
+  def viewAdd(x: Rational) = {
+    println(this + " + " + x + " = " + this.add(x))
+  }
+
+  def lessThan(that: Rational): Boolean = {
+    this.numer * that.denom < that.numer * this.denom
+  }
+  def max(that: Rational): Rational =
+    if (lessThan(that)) that else this
+
+  private def gcd(a: Int, b: Int): Int =
+    if (b == 0) a else gcd(b, a % b)
+
+  def + (that: Rational): Rational =
+    new Rational(
+      numer * that.denom + that.numer * denom,
+      denom * that.denom
+    )
+
+  def * (that: Rational): Rational =
+    new Rational(numer * that.numer,
+      denom * that.denom)
+
 
 }
 
+object useRational{
+  val x = new Rational(1,2)
+  val y = new Rational(2,3)
+  println(x + y)
+  val z = new Rational(10)
+  val r = new Rational(66,42)
+  println(r)
+  x.viewAdd(y)
+}
 
+// TODO 7.3 Применение цикла for
+object useFor{
+  // TODO чтение списка файлов из текущего каталога
+  val filesHere = new java.io.File(".").listFiles
+  for (file <- filesHere) {
 
+    println(file.getCanonicalPath + " " + file)
+  }
 
+  // TODO Листинг 7.7. Использование в выражении for нескольких фильтров
+  for (
+    file <- filesHere
+    if file.isFile
+    if file.getName.endsWith(".scala")
+  ) println(file)
+
+}
 
 
 
