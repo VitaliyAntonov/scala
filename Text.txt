@@ -1,4 +1,4 @@
- Text file for test Scala read file metod
+ Text file for test Scala read file method
  line1
  line2
  line3

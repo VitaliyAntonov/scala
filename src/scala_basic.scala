@@ -85,28 +85,31 @@ object nabor {
 
   //TODO Листинг 3.10. Считывание строк из файла
   // import scala.io.Source
-  val args = "/home/oem/develop/scala/scala/Text.txt"
-  var line:String = ""
-  if (args.length > 0) {
-    for (line <- Source.fromFile(args).getLines())
-      println(line.length + " " + line)
+  val fileName= fun.getFileNameTxtFromDir
+  if (fileName.length > 0) {
+    lazy val busFile = fun.readFileLines(fileName)
+    for(i <- 0 until busFile.length)
+      println(i + " " + busFile(i))
   }
-  else
-    Console.err.println("Please enter filename")
-
-
-
-//  println(fun.readFileLines(args))
-
-  lazy val busFile = fun.readFileLines(args)
-  for(i <- 0 until busFile.length)
-    println(i + " " + busFile(i))
-
-//  line.fromFile(args).foreach {
-//    print
 }
 
 object fun {
+
+  /***
+   * Сделать чтение вложенных дирректорий
+   * @return
+   */
+
+  def getFileNameTxtFromDir: String = { // поиск текстового файла в дирректории. Возвращает путь к последнему найденному
+    var fileName: String = ""  // после сканироваия директории здесь путь к файлу
+    val filesHere = new java.io.File(".").listFiles
+    for (file <- filesHere
+         if file.isFile
+         if file.getName.endsWith(".txt")
+         ) fileName = file.getCanonicalFile.toString
+    fileName
+  }
+
   def readFileLines(path: String): List[String] = { // чтение строк из файла в буфер
     val mab = ListBuffer[String]()
     for (line <- Source.fromFile(path).getLines()) {
@@ -280,16 +283,29 @@ object useFor{
   // TODO чтение списка файлов из текущего каталога
   val filesHere = new java.io.File(".").listFiles
   for (file <- filesHere) {
-
-    println(file.getCanonicalPath + " " + file)
+    println(file.getCanonicalFile.toString + " " + file)
   }
+
 
   // TODO Листинг 7.7. Использование в выражении for нескольких фильтров
   for (
     file <- filesHere
     if file.isFile
-    if file.getName.endsWith(".scala")
-  ) println(file)
+    if file.getName.endsWith(".txt")
+  ) println(file.getName+" "+ file.getCanonicalPath)
+
+  // TODO Листинг 7.8. Использование в выражении for нескольких генераторов
+  def fileLines(file: java.io.File) =
+    scala.io.Source.fromFile(file).getLines().toList
+  def grep(pattern: String) =
+    for (
+      file <- filesHere
+      if file.getName.endsWith(".txt");
+      line <- fileLines(file)
+      if line.trim.matches(pattern)
+    ) println(file + ": " + line.trim)
+  grep(".*gcd.*")
+
 
 }
 
