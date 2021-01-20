@@ -19,6 +19,7 @@ object scala_basic extends App{
   FallWinterSpringSummer
   FallWinterSpringSummer.use_updateRecordByName
   useRational // Использование созданного класса Rational
+  useFor
 }
 
 
@@ -215,7 +216,7 @@ object FallWinterSpringSummer{
 
 // TODO 6 Функциональные объекты
 
-// TODO 6.2. Конструкция класса Rational
+// TODO 6.2. Конструкция класса Rational  - работа с дробями
 
 //class Rational(val n: Int, val d: Int ){
 //  require(d != 0) // Метод require создаст исключение IllegalArgumentException при false
@@ -226,8 +227,9 @@ object FallWinterSpringSummer{
 class Rational(n: Int, d: Int) {
   // проверка знаменателя на 0
   require(d != 0) // Метод require создаст исключение IllegalArgumentException при false
-  val numer: Int = n
-  val denom: Int = d
+  private val  g = gcd(n.abs, d.abs)
+  val numer = n / g
+  val denom = d / g
 
   def this(n: Int) = this(n, 1) // дополнительный конструктор
 
@@ -240,20 +242,56 @@ class Rational(n: Int, d: Int) {
   def viewAdd(x: Rational) = {
     println(this + " + " + x + " = " + this.add(x))
   }
+
   def lessThan(that: Rational): Boolean = {
     this.numer * that.denom < that.numer * this.denom
   }
   def max(that: Rational): Rational =
     if (lessThan(that)) that else this
+
+  private def gcd(a: Int, b: Int): Int =
+    if (b == 0) a else gcd(b, a % b)
+
+  def + (that: Rational): Rational =
+    new Rational(
+      numer * that.denom + that.numer * denom,
+      denom * that.denom
+    )
+
+  def * (that: Rational): Rational =
+    new Rational(numer * that.numer,
+      denom * that.denom)
+
+
 }
 
 object useRational{
   val x = new Rational(1,2)
   val y = new Rational(2,3)
+  println(x + y)
+  val z = new Rational(10)
+  val r = new Rational(66,42)
+  println(r)
   x.viewAdd(y)
 }
 
+// TODO 7.3 Применение цикла for
+object useFor{
+  // TODO чтение списка файлов из текущего каталога
+  val filesHere = new java.io.File(".").listFiles
+  for (file <- filesHere) {
 
+    println(file.getCanonicalPath + " " + file)
+  }
+
+  // TODO Листинг 7.7. Использование в выражении for нескольких фильтров
+  for (
+    file <- filesHere
+    if file.isFile
+    if file.getName.endsWith(".scala")
+  ) println(file)
+
+}
 
 
 
