@@ -9,6 +9,8 @@ import scala.collection.mutable.ListBuffer
 import scala.collection.mutable
 import scala.collection.immutable.HashSet
 import scala.io.Source
+import java.nio.file._
+
 
 
 //TODO  Листинг 4.4. Использование трейта App для указания метода MAIN
@@ -20,6 +22,8 @@ object scala_basic extends App{
   FallWinterSpringSummer.use_updateRecordByName
   useRational // Использование созданного класса Rational
   useFor
+  fun.useDirPath
+  useCase
 }
 
 
@@ -93,12 +97,40 @@ object nabor {
   }
 }
 
+/**
+ * Класс для сканирования директорий
+ */
+class dirPaths(pathName: String) {
+  val filesHere = new java.io.File(pathName).listFiles  // Лист текущей дирректории
+  val pathList = ListBuffer[String]()
+
+  def dirPathsGet: List[String] = { // формируем список папок
+    for(path ← filesHere){
+      if(path.isDirectory) pathList += path.getCanonicalPath }
+    pathList.toList
+  }
+
+  def dirYieldUse: List[String] = {  // формируем список папок при помощи yield
+    val paths = for(path ← filesHere
+        if path.isDirectory) yield path.getCanonicalPath
+    paths.toList
+  }
+}
+
 object fun {
 
   /***
    * Сделать чтение вложенных дирректорий
    * @return
    */
+  def useDirPath{
+    val pathsList = new dirPaths(".")
+    println("======= pathsList.dirPathsGet ==========")
+    for(line ← pathsList.dirPathsGet) { println(line) }
+    println("======= pathsList.dirYieldUse ==========")
+    for(line ← pathsList.dirYieldUse) { println(line) }
+    println("===========")
+  }
 
   def getFileNameTxtFromDir: String = { // поиск текстового файла в дирректории. Возвращает путь к последнему найденному
     var fileName: String = ""  // после сканироваия директории здесь путь к файлу
@@ -281,11 +313,11 @@ object useRational{
 // TODO 7.3 Применение цикла for
 object useFor{
   // TODO чтение списка файлов из текущего каталога
+  println("======  чтение списка файлов из текущего каталога  ======")
   val filesHere = new java.io.File(".").listFiles
   for (file <- filesHere) {
     println(file.getCanonicalFile.toString + " " + file)
   }
-
 
   // TODO Листинг 7.7. Использование в выражении for нескольких фильтров
   for (
@@ -293,6 +325,20 @@ object useFor{
     if file.isFile
     if file.getName.endsWith(".txt")
   ) println(file.getName+" "+ file.getCanonicalPath)
+
+  // TODO Листинг 7.11. Применение в Scala конструкции try-catch
+  import java.io.FileReader
+  import java.io.FileNotFoundException
+  import java.io.IOException
+  try{
+    println("===========  try Test  ===============")
+    val f = new FileReader("T.txt")
+    // использование и закрытие файла
+  } catch {
+    case ex: FileNotFoundException => println("FileNotFoundException") // Обработка ошибки отсутствия файла
+    case ex: IOException => println("IOException") // Обработка других ошибок ввода-вывода
+  }
+
 
   // TODO Листинг 7.8. Использование в выражении for нескольких генераторов
   def fileLines(file: java.io.File) =
@@ -308,6 +354,7 @@ object useFor{
 
 
 }
+
 
 
 
