@@ -23,7 +23,8 @@ object scala_basic extends App{
   useRational // Использование созданного класса Rational
   useFor
   fun.useDirPath
-  useCase
+  useCase.multiTable()
+  LongLines1.processFile("Text.txt",1)
 }
 
 
