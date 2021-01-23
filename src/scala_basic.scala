@@ -2,14 +2,14 @@
 
 //TODO Книга Scala Профессиональное программирование
 
-import useRational.{x, y}
+// import useRational.{x, y}
 
-import scala.collection.mutable.ArrayBuffer
+// import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.ListBuffer
 import scala.collection.mutable
 import scala.collection.immutable.HashSet
 import scala.io.Source
-import java.nio.file._
+// import java.nio.file._
 
 
 
@@ -25,6 +25,7 @@ object scala_basic extends App{
   fun.useDirPath
   useCase.multiTable()
   LongLines1.processFile("Text.txt",1)
+  functionalLiteral
 }
 
 
@@ -32,21 +33,21 @@ object scala_basic extends App{
 object nabor {
 
   //TODO  Листинг 3.2. Создание и инициализация массива
-  val numNames = Array("zero", "one", "two")
+  val numNames: Array[String] = Array("zero", "one", "two")
 
   //TODO Листинг 3.3. Создание и инициализация списка
   val oneTwoThree = List(1, 2, 3)
   // Слияние двух списков с образованием нового списка при помощи ::: метода
   val oneTwo = List(1, 2)
   val threeFour = List(3, 4)
-  val oneTwoThreeFour = oneTwo ::: threeFour
+  val oneTwoThreeFour: List[Int] = oneTwo ::: threeFour
   println(oneTwo + " and " + threeFour + " were not mutated.")
   println("Thus, " + oneTwoThreeFour + " is a new list.")
   //оператор :: , который произносится cons («конс») добавляет в
   //начало существующего списка новый элемент и возвращает
   //получившийся в результате этого список.
   val twoThree = List(2, 3)
-  val oneTwoThree_ok = 1 :: twoThree
+  val oneTwoThree_ok: List[Int] = 1 :: twoThree
   println("Метод :: " + oneTwoThree_ok)
 
   //TODO  Листинг 3.5. Создание, инициализация и использование неизменяемого набора */
@@ -57,16 +58,16 @@ object nabor {
   println(jetSet.contains("Lear"))
 
 //TODO Листинг 3.6. Создание, инициализация и использование изменяемого набора */
-  val movieSet = mutable.Set("Hitch", "Poltergeist")
+  val movieSet: mutable.Set[String] = mutable.Set("Hitch", "Poltergeist")
   movieSet += "Shrek"
   println(movieSet)
 
 // TODO Создание неизменяемого HashSet */
-  val hashSet = HashSet("Tomatoes", "Chilies")
+  val hashSet: HashSet[String] = HashSet("Tomatoes", "Chilies")
   println(hashSet + "Coriander")
 
   //TODO Листинг 3.7. Создание, инициализация и использование изменяемого отображения */
-  val treasureMap = mutable.Map[Int, String]()
+  val treasureMap: mutable.Map[Int,String] = mutable.Map[Int, String]()
   treasureMap += (1 -> "Go to island.")
   treasureMap += (2 -> "Find big X on ground.")
   treasureMap += (3 -> "Dig.")
@@ -74,7 +75,7 @@ object nabor {
   println(treasureMap.mkString(" "))
 
   // TODO Кортежи
-  val pair = (99, "Luftballons")
+  val pair: (Int, String) = (99, "Luftballons")
   println(pair._1)
   println(pair._2)
 
@@ -85,13 +86,14 @@ object nabor {
 //TODO  Листинг 3.9. Функция без побочных эффектов или var-переменных
   val datas = Array[String] ("leo","zayac","volk")
   def formatArgs(args: Array[String]) = args.mkString(" ") // Метод .mkString возвращает строку из элементов, разделённых указанной строкой
+  println("============  Demo method .mkString  ======================")
   println(formatArgs(datas))
 
 
   //TODO Листинг 3.10. Считывание строк из файла
   // import scala.io.Source
   val fileName= fun.getFileNameTxtFromDir
-  if (fileName.length > 0) {
+  if (fileName.nonEmpty) {
     lazy val busFile = fun.readFileLines(fileName)
     for(i <- 0 until busFile.length)
       println(i + " " + busFile(i))
