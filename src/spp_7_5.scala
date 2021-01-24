@@ -58,6 +58,7 @@ object useCase{
  * показаны два метода, которые вместе считывают данные из файла с
  * заданным именем и выводят строки, длина которых превышает заданную
  */
+import scala.Console.out
 import scala.io.Source
 object LongLines {
   def processFile(filename: String, width: Int): Unit = {
@@ -137,7 +138,54 @@ object functionalLiteral{
   val b = sum(1, _: Int, 3)
   println("b(2) = " + b(2))
 
+  // TODO 8.7 Замыкания
+  println("==========  8.7 Замыкания  ==========")
+  var more = 1
+  val addMore = (x: Int) => x + more  // функциональный литерал будет нормально работать,
+                                      // пока доступно что-нибудь с именем more
+                                      // ссылка на захваченную переменную more, называется замыканием
+  more = 9999
+  println(addMore(10))
+
+  var sums = 0
+  someNumbers.foreach(sums += _)
+  println(sums)
+
+  def makeIncreaser(more: Int) = (x: Int) => x + more
+  val inc1 = makeIncreaser(1)
+  println("inc1(10) = " + inc1(10))
+  val inc9999 = makeIncreaser(9999)
+  println("inc9999(10) = " + inc9999(10))
+
+  // TODO 8.8. Специальные формы вызова функций
+  // Повторяющиеся параметры
+  println("========= 8.8.  Повторяющиеся параметры  =========")
+  def echo(args: String*) = {   // повторяющийся параметр -  знак звездочки
+    for (arg <- args) {
+      print(arg + "  ") }
+    print("\n")
+  }
+  echo("one")
+  echo("hello", "world!")
+
+  // Передача массива в функцию с повторяющимся параметром
+  val arr = Array("What's", "up", "doc?")
+  echo(arr: _*) // после аргумента в виде массива поставить двоеточие, знак подчеркивания и знак звездочки
+
+  def speed(distance: Float, time: Float): Float = distance / time
+  println(speed(100, 10))
+  println(speed(time=10, distance = 100)) // именованные аргументы позволяют менять порядок аргументов
+
+  def printTime(out: java.io.PrintStream = Console.out) = out.println("time = " + System.currentTimeMillis())
+  def printTime2(out: java.io.PrintStream = Console.out, divisor: Int = 1) = out.println("time = " + System.currentTimeMillis()/divisor)
+
+  printTime()
+  printTime2(out = Console.err, divisor = 1000)
+  printTime2(divisor = 1000)
+
 }
+
+// TODO 9. Управляющие абстракции
 
 
 
