@@ -26,6 +26,7 @@ object scala_basic extends App{
   useCase.multiTable()
   LongLines1.processFile("Text.txt",1)
   functionalLiteral
+  FileMatcher1
 }
 
 

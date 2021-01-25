@@ -1,4 +1,7 @@
 
+import FileMatcher.filesEnding
+
+import java.io.File
 
 
 object useCase{
@@ -187,5 +190,66 @@ object functionalLiteral{
 
 // TODO 9. Управляющие абстракции
 // TODO 9.1. Сокращение повторяемости кода
+
+
+object FileMatcher {
+    private def filesHere: Array[File] = new java.io.File(".").listFiles
+
+  /**
+   * Располагая новым вспомогательным методом по имени
+   * filesMatching, можно упростить три поисковых метода, заставив
+   * их вызывать вспомогательный метод, передавая в него
+   * соответствующую функцию
+   */
+    def filesMatching(query: String, matcher: (String, String) => Boolean) = {
+    for (file <- filesHere; if matcher(file.getName, query))
+      yield file
+  }
+
+  def filesEnding(query: String) =
+    filesMatching(query, _.endsWith(_))
+  def filesContaining(query: String) =
+    filesMatching(query, _.contains(_))
+  def filesRegex(query: String) =
+    filesMatching(query, _.matches(_))
+
+  println("++++++  in FileMatcher  +++++++++")
+  println(filesEnding(".txt").mkString(" "))
+
+}
+
+// TODO Листинг 9.1. Использование замыканий для сокращения повторяющихся фрагментов кода
+object FileMatcher1 {
+  private def filesHere = (new java.io.File(".")).listFiles
+
+  private def filesMatching(matcher: String => Boolean) =
+    for (file <- filesHere; if matcher(file.getName)) yield file
+
+  def filesEnding(query: String) =
+    filesMatching(_.endsWith(query))
+  def filesContaining(query: String) =
+    filesMatching(_.contains(query))
+  def filesRegex(query: String) =
+    filesMatching(_.matches(query))
+
+  println("++++++  in FileMatcher  +++++++++")
+  println(filesEnding(".txt").mkString(" "))
+
+  // TODO 9.2. Упрощение клиентского кода
+  def containsNeg(nums: List[Int]): Boolean = {
+    var exists = false
+    for (num <- nums)
+      if (num < 0)
+        exists = true
+    exists
+  }
+
+  def containsNeg1(nums: List[Int]) = nums.exists(_ < 0)
+
+
+  println("containsNeg(List(1, 2, 3, 4)) = "+containsNeg(List(1, 2, 3, 4)))
+  println("containsNeg(List(1, 2, -3, 4)) = "+containsNeg(List(1, 2, -3, 4)))
+
+}
 
 
