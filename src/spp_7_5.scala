@@ -1,7 +1,7 @@
 
 import FileMatcher.filesEnding
 
-import java.io.File
+import java.io.{File, PrintWriter}
 
 
 object useCase{
@@ -94,6 +94,7 @@ object LongLines1 {
 // TODO Функциональные литералы
 object functionalLiteral{
 
+
 //    x: Int => x + 1  // Простой функциональный литерал, прибавляющий к числу единицу
   var increase = (x: Int) => x + 1
   println("==========  Функциональные литералы  ===========")
@@ -183,7 +184,7 @@ object functionalLiteral{
   def printTime2(out: java.io.PrintStream = Console.out, divisor: Int = 1) = out.println("time = " + System.currentTimeMillis()/divisor)
 
   printTime()
-  printTime2(out = Console.err, divisor = 1000)
+//  printTime2(out = Console.err, divisor = 1000)
   printTime2(divisor = 1000)
 
 }
@@ -250,6 +251,97 @@ object FileMatcher1 {
   println("containsNeg(List(1, 2, 3, 4)) = "+containsNeg(List(1, 2, 3, 4)))
   println("containsNeg(List(1, 2, -3, 4)) = "+containsNeg(List(1, 2, -3, 4)))
 
+  // TODO 9.3. Карринг
+  // TODO Листинг 9.3. Определение и вызов каррированной функции
+
+  println(" ============ Карринг ==============")
+
+  def curriedSum(x: Int)(y: Int) = x + y
+  println(curriedSum(1)(2))
+
+  def first(x: Int) = (y: Int) => x + y
+  val second = first(1)
+  println(second(4))
+
+  val onePlus = curriedSum(1)_  // функцию, прибавляющую число 1 к ее единственному Int-аргументу
+  val twoPlus = curriedSum(2)_  // функцию, прибавляющую число 2 к ее единственному Int-аргументу
+
+  val listCar = (1, 2, 3, 4, 5)
+
+  val lplus = onePlus(2)
+  println(lplus)
+
+  // TODO 9.4. Создание новых управляющих структур
+
+  def twice(op: Double => Double, x: Double) = op(op(x))
+  println(twice(_ + 1, 5)) /// op(x)
+
+  def withPrintWriter(file: File, op: PrintWriter => Unit) = {
+    val writer = new PrintWriter(file)
+    try {
+      op(writer)
+    } finally {
+      writer.close()
+    }
+  }
+
+  withPrintWriter(
+    new File("date.txt"),
+    writer => writer.println(new java.util.Date) // печатаем в файл текущую дату
+  )
+
+  // TODO Листинг 9.4. Использование шаблона временного пользования для записи в файл
+  def withPrintWriter1(file: File)(op: PrintWriter => Unit) = {
+    val writer = new PrintWriter(file)
+    try {
+      op(writer)
+    } finally {
+      writer.close()
+    }
+  }
+
+  /**
+   *  метод можно вызвать с применением более
+   *  привлекательного синтаксиса:
+   */
+  val file = new File("date1.txt")
+  withPrintWriter1(file) { writer =>
+    writer.println(new java.util.Date)
+  }
+
+  /**
+   * В этом примере первый список аргументов, в котором
+   * содержится один аргумент типа File, заключен в круглые скобки.
+   * А второй список аргументов, содержащий функциональный
+   * аргумент, заключен в фигурные скобки.
+   */
+
+    // TODO 9.5. Параметры до востребования
+
+  // Без использования параметров до востребования
+  // myAssert можно создать таким образом:
+  var assertionsEnabled = true
+
+  def myAssert(predicate: () => Boolean) =
+    if (assertionsEnabled && !predicate())
+      throw new AssertionError
+
+  println("myAssert(() => 5 > 3)  = " + myAssert(() => 5 > 3))
+
+  // TODO Листинг 9.5. Использование параметра до востребования
+  def byNameAssert(predicate: => Boolean) =
+    if (assertionsEnabled && !predicate)
+      throw new AssertionError
+
+  byNameAssert(5 > 3)
+
+
 }
+
+// TODO 10. Композиция и наследование
+
+
+
+
 
 

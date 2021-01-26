@@ -5,6 +5,8 @@
 // import useRational.{x, y}
 
 // import scala.collection.mutable.ArrayBuffer
+import functionalLiteral.printTime2
+
 import scala.collection.mutable.ListBuffer
 import scala.collection.mutable
 import scala.collection.immutable.HashSet
@@ -15,6 +17,7 @@ import scala.io.Source
 
 //TODO  Листинг 4.4. Использование трейта App для указания метода MAIN
 object scala_basic extends App{
+
   println("Hello World")
 
   nabor // Использование наборов и отображений
