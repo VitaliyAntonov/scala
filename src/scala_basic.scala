@@ -30,6 +30,7 @@ object scala_basic extends App{
   LongLines1.processFile("Text.txt",1)
   functionalLiteral
   FileMatcher1
+  demoElement
 }
 
 
