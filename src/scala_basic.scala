@@ -16,7 +16,7 @@ import scala.io.Source
 
 
 //TODO  Листинг 4.4. Использование трейта App для указания метода MAIN
-object scala_basic extends App{
+object scalaBasic extends App{
 
   println("Hello World")
 
@@ -31,6 +31,7 @@ object scala_basic extends App{
   functionalLiteral
   FileMatcher1
   demoElement
+//  Spiral.show
 }
 
 
@@ -267,7 +268,7 @@ object FallWinterSpringSummer{
 //  def add(that: Rational): Rational = new Rational(n * that.d + that.n * d, d * that.d)
 //}
 
-class Rational(n: Int, d: Int) {
+class Rational(n: Int, d: Int) extends Ordered[Rational]{
   // проверка знаменателя на 0
   require(d != 0) // Метод require создаст исключение IllegalArgumentException при false
   private val  g = gcd(n.abs, d.abs)
@@ -275,6 +276,15 @@ class Rational(n: Int, d: Int) {
   val denom = d / g
 
   def this(n: Int) = this(n, 1) // дополнительный конструктор
+
+  /**
+   * Использование трейта Ordered для реализации сравнения
+   * метод compare позволит использовать знаки <= и >=
+   * @param that
+   * @return
+   */
+  def compare(that: Rational) =
+    (this.numer * that.denom) - (that.numer * this.denom)
 
   override def toString = numer + "/" + denom
   def add(that: Rational): Rational =
@@ -316,6 +326,16 @@ object useRational{
   val r = new Rational(66,42)
   println(r)
   x.viewAdd(y)
+
+  println("==================  useRational  =====================")
+
+  val half = new Rational(1, 2)
+  val third = new Rational(1, 3)
+  println(half >= third)
+  println(half > third)
+  println(half < third)
+  println(half <= third)
+
 }
 
 // TODO 7.3 Применение цикла for

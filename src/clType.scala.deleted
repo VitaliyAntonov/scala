@@ -1,0 +1,58 @@
+
+
+
+// TODO 10.9. Полиморфизм и динамическое связывание
+
+abstract class Element {
+  def demo() = {
+    println("Element's implementation invoked")
+  }
+}
+
+//class ArrayElement extends Element {
+//  override def demo() = {
+//    println("ArrayElement's implementation invoked") }
+//}
+
+class LineElement extends ArrayElement {
+  override def demo() = {
+    println("LineElement's implementation invoked")
+}
+}
+// UniformElement наследует demo из Element
+class UniformElement extends Element
+//Если ввести данный код в интерпретатор, то можно будет
+//определить метод, получающий объект типа Element и
+//вызывающий в отношении этого объекта метод demo:
+
+object demoClType {
+  def invokeDemo(e: Element) = {
+    e.demo()
+  }
+
+  invokeDemo(new ArrayElement)
+  invokeDemo(new LineElement)
+  invokeDemo(new UniformElement)
+
+}
+
+// TODO 10.10. Объявление терминальных элементов
+
+/**
+ * Объявление <final> для метода делает невозможным переопределения метода
+ * в наследующих классах
+ * Объявление <final> для класса делает невоможным наследовть данный класс
+ */
+
+// TODO Листинг 10.7. Объявление терминального метода
+//class ArrayElement extends Element {
+//  final override def demo() = {
+//    println("ArrayElement's implementation invoked") }
+//}
+
+
+// TODO Листинг 10.8. Объявление терминального класса
+final class ArrayElement extends Element {
+  override def demo() = {
+    println("ArrayElement's implementation invoked") }
+}
