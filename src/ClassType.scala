@@ -146,19 +146,13 @@ object demoElement{
 // TODO Листинг 10.12. Скрытие реализации
 //  с помощью использования закрытых классов
 object Element {
-  private class ArrayElement(
-                              val contents: Array[String]
-                            ) extends Element
-  private class LineElement(s:
-                            String)
-    extends
-      Element {
+  private class ArrayElement(val contents: Array[String]) extends Element
+  private class LineElement(s: String) extends Element {
     val contents = Array(s)
     override def width = s.length
     override def height = 1
   }
-  private class UniformElement(
-                                ch: Char,
+  private class UniformElement( ch: Char,
                                 override val width: Int,
                                 override val height: Int
                               ) extends Element {

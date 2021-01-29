@@ -14,6 +14,14 @@ import scala.io.Source
 // import java.nio.file._
 
 
+// Простая форма доступа к Fruit в пакете bobsdelights
+import bobsdelights.Fruit
+// Простая форма доступа ко всем составляющим bobsdelights
+import bobsdelights._
+// Простая форма доступа ко всем составляющим Fruits
+import bobsdelights.Fruits._
+
+
 
 //TODO  Листинг 4.4. Использование трейта App для указания метода MAIN
 object scalaBasic extends App{
@@ -32,6 +40,18 @@ object scalaBasic extends App{
   FileMatcher1
   demoElement
 //  Spiral.show
+
+
+// TODO демонстрация импорта из пакета: import bobsdelights.Fruit
+// получаем доступ к классу Fruit
+  class FruitStock(name: String, color: String) extends Fruit(name, color)
+  val lemon = new FruitStock("lemon", "yellow")
+
+  println(Apple.name+" "+Apple.color)
+  println(lemon.name+" "+lemon.color)
+  for(i <- 0 until menu.length)
+    println(menu(i).name + " " + menu(i).color)
+
 }
 
 
@@ -244,7 +264,7 @@ object FallWinterSpringSummer{
   // TODO 5.3. Строковая интерполяция
   def stringInterpolator {
     // интерполятор s
-    val name = "reader"
+    val name = ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>reader"
     println(s"Hello, $name!") // в отношении всех результатов после знака $ вызывается метод toString
     println(s"The answer is ${6 * 7}.") // выражение следует заключить в фигурные скобки
 
@@ -256,6 +276,8 @@ object FallWinterSpringSummer{
     // используется синтаксис, заданный классом java.util.Formatter.
     println(f"${math.Pi}%.5f")  // res1: String = 3.14159
   }
+
+  stringInterpolator
 }
 
 // TODO 6 Функциональные объекты
