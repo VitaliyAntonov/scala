@@ -199,6 +199,12 @@ package bobsrockets {
 
 }
 
+// topic =======================================================
+
+
+
+// ==========
+// fixme Test fixme ==================================================================
 // TODO 13.3. Импортирование кода
 // TODO Листинг 13.7. Превосходные фрукты от Боба, готовые к импорту
 package bobsdelights{
@@ -208,20 +214,18 @@ package bobsdelights{
     object Apple extends Fruit("apple", "red")
     object Orange extends Fruit("orange", "orange")
     object Pear extends Fruit("pear", "yellowish")
-    val menu = List(Apple, Orange, Pear)
+    var menu = List(Apple, Orange, Pear)
   }
 
 }
 
+// topic Листинг 13.9. Импортирование имени пакета
+import java.util.regex
+class AStarB {
+  // Обращение к java.util.regex.Pattern
+  val pat = regex.Pattern.compile("a*b")
 
-
-
-/**
- * Указание директивы import делает составляющие пакета или
-объект доступными по их именам, исключая необходимость
-ставить перед ними префикс с именем пакета или объекта.
-Рассмотрим ряд простых примеров:
- */
+}
 
 
 

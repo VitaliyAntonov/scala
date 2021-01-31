@@ -14,6 +14,12 @@ import scala.io.Source
 // import java.nio.file._
 
 
+/**
+  * Указание директивы import делает составляющие пакета или
+объект доступными по их именам, исключая необходимость
+ставить перед ними префикс с именем пакета или объекта.
+Рассмотрим ряд простых примеров:
+  */
 // Простая форма доступа к Fruit в пакете bobsdelights
 import bobsdelights.Fruit
 // Простая форма доступа ко всем составляющим bobsdelights
@@ -42,15 +48,24 @@ object scalaBasic extends App{
 //  Spiral.show
 
 
+
 // TODO демонстрация импорта из пакета: import bobsdelights.Fruit
 // получаем доступ к классу Fruit
-  class FruitStock(name: String, color: String) extends Fruit(name, color)
+  class FruitStock(name: String, color: String) extends Fruit(name, color){
+    def showFruit = {
+      //import fruit._
+      println(name + " " + color)
+    }
+    menu = Fruits.menu :+ this
+  }
   val lemon = new FruitStock("lemon", "yellow")
 
-  println(Apple.name+" "+Apple.color)
-  println(lemon.name+" "+lemon.color)
   for(i <- 0 until menu.length)
     println(menu(i).name + " " + menu(i).color)
+
+  // topic Обращение к java.util.regex.Pattern
+  val patv = new AStarB
+  println(patv.pat)
 
 }
 
